@@ -1,0 +1,34 @@
+<script setup lang="ts">
+import OptionsVertical from '@/components/shared/OptionsVertical.vue'
+
+const images = [
+  '/images/gallery-1.png',
+  '/images/gallery-2.png',
+  '/images/gallery-3.png',
+  '/images/gallery-4.png',
+  '/images/gallery-5.png',
+  '/images/gallery-6.png',
+  '/images/gallery-7.png',
+  '/images/gallery-8.png',
+  '/images/gallery-3.png',
+  '/images/gallery-4.png',
+  '/images/gallery-5.png',
+  '/images/gallery-6.png'
+]
+</script>
+
+<template>
+  <div class="box p-3">
+    <div class="box bg-primary/5 dark:bg-bg3">
+      <div class="flex justify-between items-center bb-dashed pb-6 mb-6">
+        <p class="font-medium">Gallery</p>
+        <OptionsVertical />
+      </div>
+      <div class="grid grid-cols-4 gap-3">
+        <div v-for="(img, i) in images" :key="i" class="col-span-1">
+          <img :src="img" :width="96" :height="96" class="rounded-lg" alt="gallery img" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

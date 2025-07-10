@@ -1,0 +1,159 @@
+<script setup lang="ts">
+import OptionsVertical from '@/components/shared/OptionsVertical.vue'
+import { useTableFunctions } from '@/utils/tableFunction'
+import { IconSelector } from '@tabler/icons-vue'
+import TableActions from '@/components/shared/TableActions.vue'
+
+const history = [
+  {
+    id: '556261',
+    name: 'Arlene McCoy',
+    date: '22/07/23',
+    payouts: '$475.22',
+    status: 'Inprogress'
+  },
+  {
+    id: '123456',
+    name: 'John Doe',
+    date: '15/09/23',
+    payouts: '$350.50',
+    status: 'Complete'
+  },
+  {
+    id: '789012',
+    name: 'Jane Smith',
+    date: '30/05/23',
+    payouts: '$620.75',
+    status: 'Pending'
+  },
+  {
+    id: '345678',
+    name: 'Robert Johnson',
+    date: '18/12/23',
+    payouts: '$280.90',
+    status: 'Inprogress'
+  },
+  {
+    id: '345655',
+    name: 'Al amin',
+    date: '18/12/23',
+    payouts: '$200.90',
+    status: 'Pending'
+  },
+  {
+    id: '987654',
+    name: 'Emily White',
+    date: '05/11/23',
+    payouts: '$510.30',
+    status: 'Complete'
+  },
+  {
+    id: '654321',
+    name: 'Michael Brown',
+    date: '08/08/23',
+    payouts: '$420.10',
+    status: 'Pending'
+  },
+  {
+    id: '210987',
+    name: 'Sarah Davis',
+    date: '12/04/23',
+    payouts: '$580.60',
+    status: 'Inprogress'
+  },
+  {
+    id: '543210',
+    name: 'William Wilson',
+    date: '25/02/23',
+    payouts: '$325.75',
+    status: 'Complete'
+  }
+]
+const { sortData, tableData, deleteItem } = useTableFunctions(history)
+const handleDelete = (id: number) => {
+  if (confirm('Are you sure?')) {
+    deleteItem(id)
+  }
+}
+</script>
+<template>
+  <div class="col-span-12 lg:col-span-6 box">
+    <div
+      class="flex flex-wrap justify-between items-center gap-3 pb-4 lg:pb-6 mb-4 lg:mb-6 bb-dashed"
+    >
+      <p class="font-medium">Revenue History</p>
+      <OptionsVertical />
+    </div>
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-nowrap">
+        <thead>
+          <tr class="bg-primary/5 dark:bg-bg3 text-n500 dark:text-n30">
+            <th @click="sortData('id')" class="py-3 font-semibold px-4 text-start w-[16%]">
+              <div class="flex items-center gap-1 cursor-pointer select-none">
+                ID
+                <IconSelector :size="18" />
+              </div>
+            </th>
+            <th @click="sortData('name')" class="py-3 font-semibold px-4 text-start w-[25%]">
+              <div class="flex items-center gap-1 cursor-pointer select-none">
+                Name
+                <IconSelector :size="18" />
+              </div>
+            </th>
+            <th @click="sortData('date')" class="py-3 font-semibold px-4 text-start w-[15%]">
+              <div class="flex items-center gap-1 cursor-pointer select-none">
+                Date
+                <IconSelector :size="18" />
+              </div>
+            </th>
+            <th @click="sortData('payouts')" class="py-3 font-semibold px-4 text-start w-[15%]">
+              <div class="flex items-center gap-1 cursor-pointer select-none">
+                Payouts
+                <IconSelector :size="18" />
+              </div>
+            </th>
+            <th @click="sortData('status')" class="py-3 font-semibold px-4 text-start">
+              <div class="flex items-center gap-1 cursor-pointer select-none">
+                Status
+                <IconSelector :size="18" />
+              </div>
+            </th>
+            <th class="py-3 font-semibold px-4 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="({ id, date, name, payouts, status }, index) in tableData"
+            :key="id"
+            class="even:bg-primary/5 dark:even:bg-bg3"
+          >
+            <td class="px-4 py-2">{{ id }}</td>
+            <td class="px-4 py-2">{{ name }}</td>
+            <td class="px-4 py-2">{{ date }}</td>
+            <td class="px-4 py-2">{{ payouts }}</td>
+            <td class="px-4 py-2">
+              <span
+                :class="{
+                  'bg-secondary4/5 text-secondary4': status == 'Complete',
+                  'bg-secondary2/5 text-secondary2': status == 'Pending',
+                  'bg-secondary1/5 text-secondary1': status == 'Inprogress'
+                }"
+                class="block text-xs w-28 text-center rounded-[30px] dark:border-n500 border border-n30 py-2"
+              >
+                {{ status }}
+              </span>
+            </td>
+            <td class="py-3">
+              <div class="flex justify-center items-center">
+                <TableActions
+                  :from-bottom="index == tableData.length - 1 || index == tableData.length - 2"
+                  :on-delete="() => handleDelete(id)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
